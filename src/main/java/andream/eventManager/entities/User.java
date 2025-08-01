@@ -23,7 +23,6 @@ public class User {
     @Setter(AccessLevel.NONE)
     private UUID id;
     private String email;
-    @Setter(AccessLevel.NONE)
     private String password;
     private String username;
     @Enumerated(EnumType.STRING)

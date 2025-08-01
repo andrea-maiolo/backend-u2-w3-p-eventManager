@@ -43,6 +43,7 @@ public class UserService {
             });
         found.setUsername(payload.username());
         found.setEmail(payload.email());
+        found.setPassword(bcrypt.encode(payload.password()));
         this.userRepo.save(found);
         return found;
     }
