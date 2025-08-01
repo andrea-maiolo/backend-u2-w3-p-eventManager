@@ -1,9 +1,12 @@
 package andream.eventManager.controllers;
 
+import andream.eventManager.entities.User;
+import andream.eventManager.payloads.NewUserDTO;
 import andream.eventManager.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
@@ -11,26 +14,15 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    //non serve
-//    @GetMapping
-//    public Page<User> findAll(@RequestParam(defaultValue = "0") int pageNumber,
-//                              @RequestParam(defaultValue = "10") int pageSize,
-//                              @RequestParam(defaultValue = "username") String sortBy
-//    ) {
-//        return this.userService.findAll(pageNumber, pageSize, sortBy);
-//    }
+    @PutMapping("/me")
+    public User updateOwnProfile(@AuthenticationPrincipal User currentAuthenticatedUser,
+                                 @RequestBody @Validated NewUserDTO payload) {
+        return this.userService.findByIdAndUpdate(currentAuthenticatedUser.getId(), payload);
+    }
 
-    //in auth for free access
-//    @PostMapping
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public UserRespDTO save(@RequestBody @Validated NewUserDTO payload, BindingResult validationResult) {
-//        if (validationResult.hasErrors()) {
-//            throw new BadRequestException("da fare con errore guisto");
-//        } else {
-//            User newU = this.userService.save(payload);
-//            return new UserRespDTO(newU.getId());
-//        }
-//    }
-
+    @DeleteMapping("/me")
+    public void deleteOwnProfile(@AuthenticationPrincipal User currentAuthenticatedUser) {
+        this.userService.findByIdAndDelete(currentAuthenticatedUser.getId());
+    }
 
 }
