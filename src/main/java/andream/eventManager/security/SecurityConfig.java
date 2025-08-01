@@ -28,4 +28,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder(12);
     }
 }
-//        httpSecurity.authorizeHttpRequests(h -> h.requestMatchers("/**").permitAll());
