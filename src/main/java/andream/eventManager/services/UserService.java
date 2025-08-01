@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -19,13 +20,15 @@ import java.util.UUID;
 public class UserService {
     @Autowired
     private UserRepo userRepo;
+    @Autowired
+    private PasswordEncoder bcrypt;
 
     public User save(NewUserDTO payload) {
         this.userRepo.findByEmail(payload.email()).ifPresent(user -> {
             throw new BadRequestException("email already in use");
         });
 
-        User newUser = new User(payload.email(), payload.password(), payload.username(), Role.USER);
+        User newUser = new User(payload.email(), bcrypt.encode(payload.password()), payload.username(), Role.USER);
         this.userRepo.save(newUser);
         return newUser;
     }

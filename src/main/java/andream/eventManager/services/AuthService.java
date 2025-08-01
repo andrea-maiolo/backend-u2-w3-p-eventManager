@@ -22,8 +22,8 @@ public class AuthService {
 
     public String checkAndCreateToken(LoginDTO body) {
         User found = this.userService.findByEmail(body.email());
-        if (body.password().equals(found.getPassword())) {
-//        if (bcrypt.matches(body.password(), found.getPassword())) {
+        //   if (body.password().equals(found.getPassword())) {
+        if (bcrypt.matches(body.password(), found.getPassword())) {
             String accessToken = jwtTools.createToken(found);
             return accessToken;
         } else {
