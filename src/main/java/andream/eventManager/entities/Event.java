@@ -1,10 +1,7 @@
 package andream.eventManager.entities;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -16,6 +13,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Event {
     @Id
     @GeneratedValue

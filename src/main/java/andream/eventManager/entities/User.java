@@ -2,10 +2,7 @@ package andream.eventManager.entities;
 
 import andream.eventManager.enums.Role;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.*;
 
@@ -14,6 +11,7 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class User {
     @Id
     @GeneratedValue
