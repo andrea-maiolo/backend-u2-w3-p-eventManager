@@ -69,6 +69,7 @@ public class EventService {
     }
 
 
+    //se una operazione non va allora tutto viene abortito
     @Transactional
     public void bookEvent(UUID userId, UUID eventId) {
         User found = this.userService.findById(userId);
