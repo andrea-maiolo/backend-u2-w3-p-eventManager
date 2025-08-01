@@ -1,7 +1,11 @@
 package andream.eventManager.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -13,7 +17,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class Event {
     @Id
     @GeneratedValue
@@ -27,9 +30,11 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(name = "organizer_id", nullable = false)
+    @JsonIgnore
     private User organizer;
 
     @ManyToMany(mappedBy = "bookedEvents")
+    @JsonIgnore
     private Set<User> partecipants = new HashSet<>();
 
     public Event(String title, String description, String location, LocalDate date, int availableSeats, User organizer) {
@@ -39,5 +44,17 @@ public class Event {
         this.date = date;
         this.location = location;
         this.organizer = organizer;
+    }
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", location='" + location + '\'' +
+                ", date=" + date +
+                ", availableSeats=" + availableSeats +
+                '}';
     }
 }

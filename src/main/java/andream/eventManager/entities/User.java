@@ -1,6 +1,7 @@
 package andream.eventManager.entities;
 
 import andream.eventManager.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "organizer")
+    @JsonIgnore
     private List<Event> createdEvents = new ArrayList<>();
 
     @ManyToMany
@@ -38,6 +40,7 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "event_id")
     )
+    @JsonIgnore
     private Set<Event> bookedEvents = new HashSet<>();
 
 
