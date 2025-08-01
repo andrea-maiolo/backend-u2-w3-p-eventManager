@@ -7,10 +7,6 @@ import andream.eventManager.exceptions.NotFoundException;
 import andream.eventManager.payloads.NewUserDTO;
 import andream.eventManager.repositories.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,11 +29,6 @@ public class UserService {
         return newUser;
     }
 
-    public Page<User> findAll(int pageNumber, int pageSize, String sortBy) {
-        if (pageSize > 50) pageSize = 50;
-        Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
-        return this.userRepo.findAll(pageable);
-    }
 
     public User findById(UUID userId) {
         return this.userRepo.findById(userId).orElseThrow(() -> new NotFoundException("user not found"));
