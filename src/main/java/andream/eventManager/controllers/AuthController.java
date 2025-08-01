@@ -1,7 +1,7 @@
 package andream.eventManager.controllers;
 
 import andream.eventManager.entities.User;
-import andream.eventManager.exceptions.BadRequestException;
+import andream.eventManager.exceptions.ValidationException;
 import andream.eventManager.payloads.LoginDTO;
 import andream.eventManager.payloads.LoginRespDTO;
 import andream.eventManager.payloads.NewUserDTO;
@@ -34,10 +34,11 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public UserRespDTO save(@RequestBody @Validated NewUserDTO payload, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
-            throw new BadRequestException("da fare");
-            //validationResult.getFieldErrors().forEach(fieldError -> System.out.println(fieldError.getDefaultMessage()));
-//            throw new ValidationException(validationResult.getFieldErrors()
-//                    .stream().map(fieldError -> fieldError.getDefaultMessage()).toList());
+            validationResult.getFieldErrors().forEach(fieldError -> System.out.println(fieldError.getDefaultMessage()));
+            throw new ValidationException(validationResult.getFieldErrors()
+                    .stream()
+                    .map(fieldError -> fieldError.getDefaultMessage())
+                    .toList());
         } else {
             User newUser = this.userService.save(payload);
             return new UserRespDTO(newUser.getId());
