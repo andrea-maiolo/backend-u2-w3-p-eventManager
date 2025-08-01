@@ -55,6 +55,7 @@ public class Event {
                 ", location='" + location + '\'' +
                 ", date=" + date +
                 ", availableSeats=" + availableSeats +
+                ", organizer= " + organizer +
                 '}';
     }
 }

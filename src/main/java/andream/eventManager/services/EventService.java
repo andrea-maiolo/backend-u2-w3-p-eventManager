@@ -45,7 +45,7 @@ public class EventService {
     public Event findByIdAndUpdate(UUID eventId, EventDTO payload, User currentUser) {
         Event found = this.findById(eventId);
 
-        if (found.getOrganizer() != currentUser) {
+        if (!found.getOrganizer().getId().equals(currentUser.getId())) {
             throw new UnAuthorizedException("you cannot modify events that you have not created");
         }
 
@@ -58,8 +58,12 @@ public class EventService {
         return found;
     }
 
-    public void findByIdAndDelete(UUID eventId) {
+    public void findByIdAndDelete(UUID eventId, User currentUser) {
         Event found = this.findById(eventId);
+
+        if (!found.getOrganizer().getId().equals(currentUser.getId())) {
+            throw new UnAuthorizedException("you cannot delete events that you have not created");
+        }
         this.eventRepo.delete(found);
     }
 

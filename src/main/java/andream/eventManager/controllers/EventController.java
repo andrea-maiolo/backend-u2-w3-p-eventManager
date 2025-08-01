@@ -60,6 +60,7 @@ public class EventController {
                              @Validated @RequestBody EventDTO payload,
                              @AuthenticationPrincipal User currentUser
     ) {
+        System.out.println(currentUser);
         return this.eventService.findByIdAndUpdate(eventId, payload, currentUser);
     }
 
@@ -67,8 +68,8 @@ public class EventController {
     @DeleteMapping("/{eventId}")
     @PreAuthorize("hasAuthority('ORGANIZER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void findAndDelete(@PathVariable UUID eventId) {
-        this.eventService.findByIdAndDelete(eventId);
+    public void findAndDelete(@PathVariable UUID eventId, @AuthenticationPrincipal User currentUser) {
+        this.eventService.findByIdAndDelete(eventId, currentUser);
     }
 
     //prenotazione da parte di user
