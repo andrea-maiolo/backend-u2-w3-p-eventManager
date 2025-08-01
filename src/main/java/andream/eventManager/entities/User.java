@@ -2,7 +2,10 @@ package andream.eventManager.entities;
 
 import andream.eventManager.enums.Role;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -13,7 +16,6 @@ import java.util.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 public class User {
     @Id
     @GeneratedValue
@@ -49,5 +51,14 @@ public class User {
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.name()));
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", role=" + role +
+                '}';
     }
 }
