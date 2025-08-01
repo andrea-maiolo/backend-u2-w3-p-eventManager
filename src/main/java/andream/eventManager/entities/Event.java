@@ -32,11 +32,12 @@ public class Event {
     @ManyToMany(mappedBy = "bookedEvents")
     private Set<User> partecipants = new HashSet<>();
 
-    public Event(String title, String description, String location, LocalDate date, int availableSeats) {
+    public Event(String title, String description, String location, LocalDate date, int availableSeats, User organizer) {
         this.availableSeats = availableSeats;
         this.description = description;
         this.title = title;
         this.date = date;
         this.location = location;
+        this.organizer = organizer;
     }
 }
