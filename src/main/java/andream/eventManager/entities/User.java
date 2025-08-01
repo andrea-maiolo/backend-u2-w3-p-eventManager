@@ -3,6 +3,8 @@ package andream.eventManager.entities;
 import andream.eventManager.enums.Role;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import java.util.*;
 
@@ -42,5 +44,10 @@ public class User {
         this.username = username;
         this.password = password;
         this.role = role;
+    }
+
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(this.role.name()));
     }
 }
