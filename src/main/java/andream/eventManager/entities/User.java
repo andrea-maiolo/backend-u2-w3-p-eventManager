@@ -2,19 +2,29 @@ package andream.eventManager.entities;
 
 import andream.eventManager.enums.Role;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.*;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue
+    @Setter(AccessLevel.NONE)
     private UUID id;
     private String email;
+    @Setter(AccessLevel.NONE)
     private String password;
     private String username;
     @Enumerated(EnumType.STRING)
+    @Setter(AccessLevel.NONE)
     private Role role;
 
     @OneToMany(mappedBy = "organizer")
@@ -28,4 +38,11 @@ public class User {
     )
     private Set<Event> bookedEvents = new HashSet<>();
 
+
+    public User(String email, String password, String username, Role role) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 }
