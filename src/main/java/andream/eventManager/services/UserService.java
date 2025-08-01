@@ -64,4 +64,8 @@ public class UserService {
     public User findByEmail(String email) {
         return this.userRepo.findByEmail(email).orElseThrow(() -> new NotFoundException("user not found"));
     }
+
+    public User modifyBookedEventList(User user) {
+        return this.userRepo.save(user);
+    }
 }

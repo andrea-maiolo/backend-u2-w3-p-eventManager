@@ -6,6 +6,7 @@ import andream.eventManager.exceptions.NotFoundException;
 import andream.eventManager.exceptions.UnAuthorizedException;
 import andream.eventManager.payloads.EventDTO;
 import andream.eventManager.repositories.EventRepo;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -65,6 +66,28 @@ public class EventService {
             throw new UnAuthorizedException("you cannot delete events that you have not created");
         }
         this.eventRepo.delete(found);
+    }
+
+
+    @Transactional
+    public void bookEvent(UUID userId, UUID eventId) {
+        User found = this.userService.findById(userId);
+        Event foundEvent = this.eventRepo.findById(eventId).orElseThrow(() -> new NotFoundException("event not found"));
+
+        if (foundEvent.getAvailableSeats() <= 0) {
+            throw new IllegalStateException("No available seats for this event");
+        }
+
+        if (found.getBookedEvents().contains(foundEvent)) {
+            throw new IllegalStateException("You have already booked this event");
+        }
+
+        found.getBookedEvents().add(foundEvent);
+        foundEvent.getPartecipants().add(found);
+        foundEvent.setAvailableSeats(foundEvent.getAvailableSeats() - 1);
+
+        this.eventRepo.save(foundEvent);
+        this.userService.modifyBookedEventList(found);
     }
 
 }

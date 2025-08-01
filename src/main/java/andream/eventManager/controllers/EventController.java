@@ -5,6 +5,7 @@ import andream.eventManager.entities.User;
 import andream.eventManager.exceptions.ValidationException;
 import andream.eventManager.payloads.EventDTO;
 import andream.eventManager.payloads.EventRespDTO;
+import andream.eventManager.payloads.ReservationDTO;
 import andream.eventManager.services.EventService;
 import andream.eventManager.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,4 +74,14 @@ public class EventController {
     }
 
     //prenotazione da parte di user
+    @PostMapping("/book/{eventId}")
+    @PreAuthorize("hasAuthority('USER')")
+    public ReservationDTO bookEvent(@PathVariable UUID eventId, @AuthenticationPrincipal User currentUser) {
+        System.out.println(eventId);
+        Event f = this.eventService.findById(eventId);
+        System.out.println(f);
+        this.eventService.bookEvent(currentUser.getId(), eventId);
+        return new ReservationDTO(eventId, currentUser.getId());
+    }
+
 }
