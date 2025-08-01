@@ -19,7 +19,7 @@ public class SecurityConfig {
         httpSecurity.formLogin(f -> f.disable());
         httpSecurity.csrf(c -> c.disable());
         httpSecurity.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        httpSecurity.authorizeHttpRequests(h -> h.requestMatchers("/*").permitAll());
+        httpSecurity.authorizeHttpRequests(h -> h.requestMatchers("/**").permitAll());
         return httpSecurity.build();
     }
 
